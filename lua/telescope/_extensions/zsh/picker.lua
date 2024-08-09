@@ -39,7 +39,7 @@ return function (opts)
         }
       end,
     },
-    sorter = conf.file_sorter(opts),
+    sorter = conf.generic_sorter(opts),
     attach_mappings = function(prompt_bufnr, _)
       actions.select_default:replace(function()
         actions.close(prompt_bufnr)
