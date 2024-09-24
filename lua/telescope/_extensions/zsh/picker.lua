@@ -22,6 +22,12 @@ local get = function ()
   return result
 end
 
+local insert_text = function(text)
+  local _, line, col, _ = unpack(vim.fn.getcurpos())
+  local buf = vim.api.nvim_get_current_buf()
+  vim.api.nvim_buf_set_text(buf, line - 1, col - 1, line - 1, col - 1, { text })
+end
+
 return function (opts)
   opts = opts or {}
 
@@ -40,8 +46,14 @@ return function (opts)
       end,
     },
     sorter = conf.generic_sorter(opts),
-    attach_mappings = function(prompt_bufnr, _)
+    attach_mappings = function(prompt_bufnr, map)
       actions.select_default:replace(function()
+        actions.close(prompt_bufnr)
+        local data = state.get_selected_entry().value
+        insert_text(data)
+      end)
+
+      map({ 'i', 'n' }, '<C-y>', function()
         actions.close(prompt_bufnr)
         local data = state.get_selected_entry().value
         vim.fn.setreg('"', data)
