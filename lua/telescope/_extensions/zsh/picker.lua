@@ -34,7 +34,7 @@ return function (opts)
   local result = get()
 
   pickers.new(opts, {
-    prompt_title = 'rg',
+    prompt_title = 'zsh',
     finder = finders.new_table {
       results = result,
       entry_maker = function (entry)
